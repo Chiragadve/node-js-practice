@@ -9,6 +9,11 @@ const PORT = 8000;
 // Middleware
 app.use(express.urlencoded({ extended: false }));
 
+app.use((req, res, next) => {
+  console.log("Hello from middleware 1");
+  next();
+});
+
 app.get("/users", (req, res) => {
   const html = `
     <ul>
@@ -55,7 +60,7 @@ app.post("/api/users", (req, res) => {
   const body = req.body;
   users.push({ ...body, id: users.length + 1 });
   fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
-    return res.json({ status: "Sucess", id: users.length });
+    return res.status(201).json({ status: "Sucess", id: users.length });
   });
 });
 
